@@ -1,0 +1,824 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1200,
+  "model": {
+    "culture": "en-US",
+    "dataSources": [
+      {
+        "name": "DataMart DB",
+        "connectionString": "Provider=SQLOLEDB;Data Source=AZ-UE2-WDWHV-D1.corp.endeavorco.com;Persist Security Info=false;Integrated Security=SSPI;Initial Catalog=EIP",
+        "impersonationMode": "impersonateServiceAccount",
+        "annotations": [
+          {
+            "name": "ConnectionEditUISource",
+            "value": "SqlServer"
+          }
+        ]
+      }
+    ],
+    "tables": [
+      {
+        "name": "DateMaster",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "DateKey(DimDate)",
+            "dataType": "int64",
+            "isUnique": true,
+            "sourceColumn": "DateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FullDate(DimDate)",
+            "dataType": "dateTime",
+            "isKey": true,
+            "sourceColumn": "FullDate",
+            "formatString": "Short Date",
+            "sourceProviderType": "WChar",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"DateTimeShortDatePattern\" />"
+              }
+            ]
+          },
+          {
+            "name": "DayNumber(DimDate)",
+            "dataType": "int64",
+            "sourceColumn": "DayNumber",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "MonthNumber(DimDate)",
+            "dataType": "int64",
+            "sourceColumn": "MonthNumber",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "MonthName(DimDate)",
+            "dataType": "string",
+            "sourceColumn": "MonthName",
+            "sortByColumn": "MonthNumber(DimDate)",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "QuarterNumber(DimDate)",
+            "dataType": "int64",
+            "sourceColumn": "QuarterNumber",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "YearNumber(DimDate)",
+            "dataType": "int64",
+            "sourceColumn": "YearNumber",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "WeekNumber(DimDate)",
+            "dataType": "int64",
+            "sourceColumn": "WeekNumber",
+            "sourceProviderType": "Integer"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_DimDate",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_DimDate].*   FROM [rcore].[vw_DimDate] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_DimDate].*   FROM [rcore].[vw_DimDate] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_DimDate"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      },
+      {
+        "name": "Diagnosis",
+        "columns": [
+          {
+            "name": "DiagnosisKey(DimDiagnosis)",
+            "dataType": "int64",
+            "sourceColumn": "DiagnosisKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DiagnosisCode(DimDiagnosis)",
+            "dataType": "string",
+            "sourceColumn": "DiagnosisCode",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "DiagnosisName(DimDiagnosis)",
+            "dataType": "string",
+            "sourceColumn": "DiagnosisName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "DiseaseCategory(DimDiagnosis)",
+            "dataType": "string",
+            "sourceColumn": "DiseaseCategory",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_DimDiagnosis",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_DimDiagnosis].*   FROM [rcore].[vw_DimDiagnosis] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_DimDiagnosis].*   FROM [rcore].[vw_DimDiagnosis] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_DimDiagnosis"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      },
+      {
+        "name": "Claims",
+        "columns": [
+          {
+            "name": "ClaimFactKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "ClaimFactKey",
+            "sourceProviderType": "BigInt"
+          },
+          {
+            "name": "ClaimID(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "ClaimID",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PatientKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "PatientKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PolicyKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "PolicyKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ProviderKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "ProviderKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DiagnosisKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "DiagnosisKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ClaimDateKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "ClaimDateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "AdmissionDateKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "AdmissionDateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "DischargeDateKey(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "DischargeDateKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ClaimedAmount(FactClaim)",
+            "dataType": "double",
+            "sourceColumn": "ClaimedAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "ApprovedAmount(FactClaim)",
+            "dataType": "double",
+            "sourceColumn": "ApprovedAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "RejectedAmount(FactClaim)",
+            "dataType": "double",
+            "sourceColumn": "RejectedAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "OutOfPocketAmount(FactClaim)",
+            "dataType": "double",
+            "sourceColumn": "OutOfPocketAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "LengthOfStay(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "LengthOfStay",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ClaimStatus(FactClaim)",
+            "dataType": "string",
+            "sourceColumn": "ClaimStatus",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "ClaimCount(FactClaim)",
+            "dataType": "int64",
+            "sourceColumn": "ClaimCount",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "type": "calculated",
+            "name": "PolicyCoverage",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": "Related(Policy[CoverageAmount(DimPolicy)])"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_FactClaim",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_FactClaim].*   FROM [rcore].[vw_FactClaim] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Claims",
+            "expression": "count(Claims[ClaimID(FactClaim)])"
+          },
+          {
+            "name": "Total Claimed Amount",
+            "expression": "SUM(Claims[ClaimedAmount(FactClaim)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Total Approved Amount",
+            "expression": "SUM(Claims[ApprovedAmount(FactClaim)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Total Rejected Amount",
+            "expression": "SUM(Claims[RejectedAmount(FactClaim)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Approval Rate%",
+            "expression": "DIVIDE([Approved Claims],[Total Claims])",
+            "formatString": "0.00%;-0.00%;0.00%"
+          },
+          {
+            "name": "Approved Claims",
+            "expression": "CALCULATE([Total Claims],Claims[ClaimStatus(FactClaim)] = \"Approved\")"
+          },
+          {
+            "name": "Rejected Claims",
+            "expression": "CALCULATE([Total Claims],Claims[ClaimStatus(FactClaim)] = \"Rejected\")"
+          },
+          {
+            "name": "DistinctPatients",
+            "expression": "DISTINCTCOUNT(Patient[PatientID(DimPatient)])"
+          },
+          {
+            "name": "Average Length of Stay",
+            "expression": "Average(Claims[LengthOfStay(FactClaim)])"
+          },
+          {
+            "name": "Total Out Of Pocket",
+            "expression": "SUM(Claims[OutOfPocketAmount(FactClaim)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Average Claim Cost",
+            "expression": "AVERAGE(Claims[ApprovedAmount(FactClaim)])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Cost Per Claim",
+            "expression": "DIVIDE([Total Approved Amount],[Total Claims])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Total Policy Coverage",
+            "expression": "SUM(Claims[PolicyCoverage])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Policy Utilization %",
+            "expression": "DIVIDE([Total Approved Amount],[Total Policy Coverage])",
+            "formatString": "0.00%;-0.00%;0.00%"
+          },
+          {
+            "name": "Remaining Coverage",
+            "expression": "[Total Policy Coverage]-[Total Approved Amount]",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Average Claims Per Patient",
+            "expression": "Divide([Total Claims],[DistinctPatients])"
+          },
+          {
+            "name": "Approved Amount Last 90 Days",
+            "expression": [
+              "CALCULATE(",
+              "    [Total Approved Amount],",
+              "    DATESINPERIOD(",
+              "       DateMaster[FullDate(DimDate)],",
+              "        MAX(DateMaster[FullDate(DimDate)]),",
+              "        -90,",
+              "        DAY",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "YOY Growth",
+            "expression": [
+              "DIVIDE(",
+              "    [Total Approved Amount]",
+              "    -",
+              "    [Previous Year Approved Amount],",
+              "    [Previous Year Approved Amount]",
+              ")"
+            ],
+            "formatString": "0.00%;-0.00%;0.00%"
+          },
+          {
+            "name": "Running Total",
+            "expression": [
+              "CALCULATE(",
+              "    [Total Approved Amount],",
+              "    FILTER(",
+              "        ALL(DateMaster),",
+              "        DateMaster[FullDate(DimDate)]",
+              "<= MAX(DateMaster[FullDate(DimDate)])",
+              "    )",
+              ")"
+            ],
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Claim Count YTD",
+            "expression": [
+              "TOTALYTD([Total Claims],DateMaster[FullDate(DimDate)])",
+              " "
+            ],
+            "formatString": "0"
+          },
+          {
+            "name": "Claims Count Last 30 Days",
+            "expression": [
+              "CALCULATE(",
+              "    [Total Claims],",
+              "    DATESINPERIOD(",
+              "        DateMaster[FullDate(DimDate)],",
+              "        MAX(DateMaster[FullDate(DimDate)]),",
+              "        -30,",
+              "        DAY",
+              "    )",
+              ")"
+            ],
+            "formatString": "0"
+          },
+          {
+            "name": "Previous Month Approved Amount",
+            "expression": [
+              "CALCULATE(",
+              "    [Total Approved Amount],",
+              "    PREVIOUSMONTH(DateMaster[FullDate(DimDate)])",
+              ")"
+            ],
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Previous Year Approved Amount",
+            "expression": [
+              "CALCULATE(",
+              "    [Total Approved Amount],",
+              "    SAMEPERIODLASTYEAR(DateMaster[FullDate(DimDate)])",
+              ")"
+            ],
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_FactClaim].*   FROM [rcore].[vw_FactClaim] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_FactClaim"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      },
+      {
+        "name": "Policy",
+        "columns": [
+          {
+            "name": "PolicyKey(DimPolicy)",
+            "dataType": "int64",
+            "sourceColumn": "PolicyKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PolicyID(DimPolicy)",
+            "dataType": "int64",
+            "sourceColumn": "PolicyID",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PolicyName(DimPolicy)",
+            "dataType": "string",
+            "sourceColumn": "PolicyName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "PolicyType(DimPolicy)",
+            "dataType": "string",
+            "sourceColumn": "PolicyType",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "CoverageAmount(DimPolicy)",
+            "dataType": "double",
+            "sourceColumn": "CoverageAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "DeductibleAmount(DimPolicy)",
+            "dataType": "double",
+            "sourceColumn": "DeductibleAmount",
+            "sourceProviderType": "Numeric"
+          },
+          {
+            "name": "CoPayPercent(DimPolicy)",
+            "dataType": "double",
+            "sourceColumn": "CoPayPercent",
+            "sourceProviderType": "Numeric"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_DimPolicy",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_DimPolicy].*   FROM [rcore].[vw_DimPolicy] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_DimPolicy].*   FROM [rcore].[vw_DimPolicy] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_DimPolicy"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      },
+      {
+        "name": "Provider",
+        "columns": [
+          {
+            "name": "ProviderKey(DimProvider)",
+            "dataType": "int64",
+            "sourceColumn": "ProviderKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ProviderID(DimProvider)",
+            "dataType": "int64",
+            "sourceColumn": "ProviderID",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "ProviderName(DimProvider)",
+            "dataType": "string",
+            "sourceColumn": "ProviderName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "ProviderType(DimProvider)",
+            "dataType": "string",
+            "sourceColumn": "ProviderType",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "City(DimProvider)",
+            "dataType": "string",
+            "sourceColumn": "City",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "State(DimProvider)",
+            "dataType": "string",
+            "sourceColumn": "State",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Country(DimProvider)",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_DimProvider",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_DimProvider].*   FROM [rcore].[vw_DimProvider] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_DimProvider].*   FROM [rcore].[vw_DimProvider] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_DimProvider"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      },
+      {
+        "name": "Patient",
+        "columns": [
+          {
+            "name": "PatientKey(DimPatient)",
+            "dataType": "int64",
+            "sourceColumn": "PatientKey",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "PatientID(DimPatient)",
+            "dataType": "int64",
+            "sourceColumn": "PatientID",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "FullName(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "FullName",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Gender(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "Gender",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "DOB(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "DOB",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "Age(DimPateint)",
+            "dataType": "int64",
+            "sourceColumn": "Age",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "City(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "City",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "State(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "State",
+            "sourceProviderType": "Char"
+          },
+          {
+            "name": "Country(DimPatient)",
+            "dataType": "string",
+            "sourceColumn": "Country",
+            "sourceProviderType": "Char"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "vw_DimPatient",
+            "dataView": "full",
+            "source": {
+              "type": "query",
+              "query": " \t\t\t\tSELECT [rcore].[vw_DimPatient].*   FROM [rcore].[vw_DimPatient] ",
+              "dataSource": "DataMart DB"
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": " \t\t\t\tSELECT [rcore].[vw_DimPatient].*   FROM [rcore].[vw_DimPatient] "
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "vw_DimPatient"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "rcore"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "7340dd0a-18a7-45e4-ab0b-85ccc0de7b58",
+        "fromTable": "Claims",
+        "fromColumn": "PatientKey(FactClaim)",
+        "toTable": "Patient",
+        "toColumn": "PatientKey(DimPatient)"
+      },
+      {
+        "name": "171bbbab-413a-4cbc-a302-8d01f36abc8a",
+        "fromTable": "Claims",
+        "fromColumn": "ClaimDateKey(FactClaim)",
+        "toTable": "DateMaster",
+        "toColumn": "DateKey(DimDate)"
+      },
+      {
+        "name": "3b104740-d821-42d2-9115-5e378b52fac4",
+        "fromTable": "Claims",
+        "fromColumn": "PolicyKey(FactClaim)",
+        "toTable": "Policy",
+        "toColumn": "PolicyKey(DimPolicy)"
+      },
+      {
+        "name": "48feb12d-7464-465e-9393-6e7aa8004c6c",
+        "fromTable": "Claims",
+        "fromColumn": "ProviderKey(FactClaim)",
+        "toTable": "Provider",
+        "toColumn": "ProviderKey(DimProvider)"
+      },
+      {
+        "name": "c3174535-3ba3-4fea-9034-ced15ac09505",
+        "fromTable": "Claims",
+        "fromColumn": "DiagnosisKey(FactClaim)",
+        "toTable": "Diagnosis",
+        "toColumn": "DiagnosisKey(DimDiagnosis)"
+      }
+    ],
+    "roles": [
+      {
+        "name": "Reader",
+        "modelPermission": "read"
+      },
+      {
+        "name": "CardiologyAnalyst",
+        "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "Puneeth.haroor-contractor@wmegrp.com",
+            "identityProvider": "AzureAD"
+          }
+        ],
+        "tablePermissions": [
+          {
+            "name": "Diagnosis",
+            "filterExpression": "Diagnosis[DiseaseCategory(DimDiagnosis)]=\"Cardiology\""
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "400"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}
