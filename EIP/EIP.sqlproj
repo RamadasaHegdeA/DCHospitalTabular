@@ -64,5 +64,10 @@
     <Build Include="Views\04-Core-CreateViews.sql" />
     <Build Include="Procedures\03- Core-Create Procedures.sql" />
     <Build Include="Tables\01-Core-Create Tables.sql" />
+    <Build Include="Tables\05-Core-Feedback Changes.sql" />
+    <Build Include="Tables\06-Core-View Change DimProvider.sql" />
+    <Build Include="Tables\07-Core-SPROC Change DimProvider.sql" />
+    <Build Include="Tables\08-Core-SPROC Change FactClaims.sql" />
+    <Build Include="Tables\09-Core-Insert Script unkown Data.sql" />
   </ItemGroup>
 </Project>
