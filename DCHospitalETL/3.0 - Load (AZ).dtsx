@@ -1,0 +1,282 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/14/2026 11:57:55 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CDC-US-ra-BJ1VN"
+  DTS:CreatorName="CORP\hegd9004"
+  DTS:DTSID="{2C77AB57-3813-4843-AC94-567951C86DB4}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1016.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="3 0 - Load  AZ"
+  DTS:PackageType="5"
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{F36F8DAA-8746-4BA1-A068-528269E1EB2C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1]"
+      DTS:CreationName="MSOLAP100"
+      DTS:DTSID="{6494BF34-067F-44DA-834A-A6F30286605D}"
+      DTS:ObjectName="asazure://northcentralus.asazure.windows.net/wmedataservicesd1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Data Source=asazure://northcentralus.asazure.windows.net/wmedataservicesd1;PROVIDER=MSOLAP;Impersonation Level=Impersonate;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2]"
+      DTS:CreationName="MSOLAP100"
+      DTS:DTSID="{DC03459A-D894-4605-929C-61C2B6E6A2C6}"
+      DTS:ObjectName="asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Data Source=DCHospitalTabularV2;Initial Catalog=DCHospitalTabularV2;Provider=MSOLAP.8;Integrated Security=SSPI;Impersonation Level=Impersonate;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2 1]"
+      DTS:CreationName="MSOLAP100"
+      DTS:DTSID="{32423DD5-2D49-4D97-A047-9579B82FF6F8}"
+      DTS:ObjectName="asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Data Source=asazure://northcentralus.asazure.windows.net/wmedataservicesd1;User ID=app:83d6550a-7a17-4ac0-bfb6-d160da129b24;Initial Catalog=DCHospitalTabularV2;Provider=MSOLAP.8;Persist Security Info=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAwuGpB9GQRk6I+XwwYrVXJwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADSCPSfH5SjUF3AIne8rY0O7D9jKm4MKOBuVwq+ZJa+IQAAAAAOgAAAAAIAACAAAABAyxi3ccaI9u/5NHzDEQ1L79u2owMp5UjpVr4T2JXKYGAAAAAQPI7lAMWlitoADPAr+v/vZuePi3KqIfRYpBskon3sWq143dnpTSCo4qLkP22RZC2MUMLaE97viHLoXXf2Ske19vVPisAn7ZF5hx+8qMJc9frlJ3SHxfp6TRdWdHM/25JAAAAAljQTg6VfSmyRqPWprCydt6wAzaeWA75wG1icuqIOaA9J2aGtmnRu2XGxjli/CmoxNnbIwQg8hvl6UOrN05f4VQ</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AZ-UE2-WDWHV-D1.corp.endeavorco.com.EIPStaging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{07C6DDA4-EA88-4410-9D00-18AD08D44C1D}"
+      DTS:ObjectName="AZ-UE2-WDWHV-D1.corp.endeavorco.com.EIPStaging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AZ-UE2-WDWHV-D1.corp.endeavorco.com;Initial Catalog=EIPStaging;Provider=SQLOLEDB.1;Integrated Security=SSPI;Application Name=SSIS-3 0 - Load  AZ-{07C6DDA4-EA88-4410-9D00-18AD08D44C1D}AZ-UE2-WDWHV-D1.corp.endeavorco.com.EIPStaging;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AZ-UE2-WDWHV-D1.corp.endeavorco.com.EIPStaging 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{1910992A-000E-4423-B28B-112F45537041}"
+      DTS:ObjectName="AZ-UE2-WDWHV-D1.corp.endeavorco.com.EIPStaging 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=AZ-UE2-WDWHV-D1.corp.endeavorco.com;Initial Catalog=EIPStaging;Provider=SQLOLEDB.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[PatientClaims]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{2A87C45B-5F6F-4F59-9E90-D271E52018A0}"
+      DTS:ObjectName="PatientClaims">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:ColumnNamesInFirstDataRow="True"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\OfficeWork\05-WME DM Architecture\HospitalClaimsDM_SampleData\PatientClaims.csv">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ClaimID"
+              DTS:DTSID="{74AF4943-973D-4642-9B0B-D198CE339432}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PatientID"
+              DTS:DTSID="{A1A5B560-FCE5-4DC5-9E1C-75AE8FFBA47F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PolicyID"
+              DTS:DTSID="{3737AE65-17A1-49DA-AD07-7A00DDE2B465}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ProviderID"
+              DTS:DTSID="{36F94085-F455-4CC1-B91E-128CFEAB8468}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="MedicalIssueID"
+              DTS:DTSID="{C972D094-6FD2-401C-BA7B-FA9F5ABDC561}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ClaimDate"
+              DTS:DTSID="{EC0B5A2B-B90C-4A20-A99B-74F24FB1D89C}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="AdmissionDate"
+              DTS:DTSID="{1160DA6A-5522-4A07-80A7-96D5305C1867}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DischargeDate"
+              DTS:DTSID="{7F6D6C9D-B3FD-4F6E-898B-3898F5C0BDCA}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ClaimedAmount"
+              DTS:DTSID="{228CEC9B-E89D-4A8B-AED7-FD880A553F83}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ApprovedAmount"
+              DTS:DTSID="{E68A4B58-86D3-4F3E-9D69-AF9E111A91FC}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RejectedAmount"
+              DTS:DTSID="{D203B689-E07C-4CB9-A4A5-90C52E7989F6}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OutOfPocketAmount"
+              DTS:DTSID="{9E6BF200-38F6-40F7-90D2-F51A68D4335A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ClaimStatus"
+              DTS:DTSID="{215998E3-89B6-4135-A145-D7ABA35499D2}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000A_"
+              DTS:MaximumWidth="50"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CreatedDate"
+              DTS:DTSID="{1C707AAE-D37F-43D0-B598-45946FF5CCCD}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Analysis Services Processing Task"
+      DTS:CreationName="Microsoft.DTSProcessingTask"
+      DTS:Description="Analysis Services Processing Task"
+      DTS:DTSID="{9D867BEC-B473-447E-A0D4-5955BA57656E}"
+      DTS:ExecutableType="Microsoft.DTSProcessingTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Analysis Services Processing Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ASProcessingData
+          ConnectionName="asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2 1"
+          ProcessingCommands="{&#xA;  &quot;sequence&quot;: {&#xA;    &quot;operations&quot;: [&#xA;      {&#xA;        &quot;refresh&quot;: {&#xA;          &quot;type&quot;: &quot;full&quot;,&#xA;          &quot;objects&quot;: [&#xA;            {&#xA;              &quot;database&quot;: &quot;DCHospitalTabularV2&quot;&#xA;            }&#xA;          ]&#xA;        }&#xA;      }&#xA;    ]&#xA;  }&#xA;}" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="237,42"
+          Id="Package\Analysis Services Processing Task"
+          TopLeft="376,186" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1]">
+    <ProjectReferenceName></ProjectReferenceName>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2]">
+    <ProjectReferenceName></ProjectReferenceName>
+  </ConnectionManager>
+  <ConnectionManager
+    design-time-name="Package.ConnectionManagers[asazure://northcentralus.asazure.windows.net/wmedataservicesd1.DCHospitalTabularV2 1]">
+    <ProjectReferenceName></ProjectReferenceName>
+  </ConnectionManager>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
