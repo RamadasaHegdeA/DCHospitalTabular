@@ -406,6 +406,8 @@ GO
  
 
 
+
+
 --***********************************************************
 -- SP Name 		: [rcore].[PopulateFactClaim]
 -- Date         : 25-May-2026
@@ -419,7 +421,7 @@ GO
 
 --***********************************************************
  
-CREATE OR ALTER   PROCEDURE [rcore].[PopulateFactClaim]
+ALTER     PROCEDURE [rcore].[PopulateFactClaim]
 AS
 BEGIN
 BEGIN TRAN
@@ -617,112 +619,261 @@ BEGIN TRAN
 
         WHERE dd.DiagnosisCode IS NULL;
  
-        IF 
+        --IF 
 
-        (
+        --(
 
-            SELECT MAX(ErrorLogID) ErrorLogID
+        --    SELECT MAX(ErrorLogID) ErrorLogID
 
-            FROM EIPstaging.rstage.ETLErrorLog
+        --    FROM EIPstaging.rstage.ETLErrorLog
 
-            WHERE PackageName = 'PopulateFactClaim'
+        --    WHERE PackageName = 'PopulateFactClaim'
 
-            AND CAST(ExecutionTime AS DATE) = CAST(GETDATE() AS DATE)
+        --    AND CAST(ExecutionTime AS DATE) = CAST(GETDATE() AS DATE)
 
-        ) <> @ErrorlogID
+        --) <> @ErrorlogID
 
-        BEGIN
+        --BEGIN
 
-            RAISERROR(
+        --    RAISERROR(
 
-                'Data Quality Validation Failed',
+        --        'Data Quality Validation Failed',
 
-                16,
+        --        16,
 
-                1
+        --        1
 
-            );
+        --    );
 
-            RETURN;
+        --    RETURN;
 
-        END;
+        --END;
  
 
     END;
     BEGIN TRY 
         SET NOCOUNT ON;
         /*Updates are not considered after claim submissions, Fact depicts the Claim level data*/
-        INSERT INTO rcore.FactClaim
-        (
-            ClaimID,
+        --INSERT INTO rcore.FactClaim
+        --(
+        --    ClaimID,
  
-            PatientKey,
-            PolicyKey,
-            ProviderKey,
-            DiagnosisKey,
+        --    PatientKey,
+        --    PolicyKey,
+        --    ProviderKey,
+        --    DiagnosisKey,
  
-            ClaimDateKey,
-            AdmissionDateKey,
-            DischargeDateKey,
+        --    ClaimDateKey,
+        --    AdmissionDateKey,
+        --    DischargeDateKey,
  
-            ClaimedAmount,
-            ApprovedAmount,
-            RejectedAmount,
-            OutOfPocketAmount,
+        --    ClaimedAmount,
+        --    ApprovedAmount,
+        --    RejectedAmount,
+        --    OutOfPocketAmount,
  
-            LengthOfStay,
+        --    LengthOfStay,
  
-            ClaimStatus,
-            ClaimCount
-        )
+        --    ClaimStatus,
+        --    ClaimCount
+        --)
  
+        --SELECT
+        --    C.ClaimID,
+ 
+        --    DP.PatientKey,
+        --    DPO.PolicyKey,
+        --    DPR.ProviderKey,
+        --    DD.DiagnosisKey,
+ 
+        --    CAST(FORMAT(C.ClaimDate,'yyyyMMdd') AS INT),
+        --    CAST(FORMAT(C.AdmissionDate,'yyyyMMdd') AS INT),
+        --    CAST(FORMAT(C.DischargeDate,'yyyyMMdd') AS INT),
+ 
+        --    C.ClaimedAmount,
+        --    C.ApprovedAmount,
+        --    C.RejectedAmount,
+        --    C.OutOfPocketAmount,
+ 
+        --    DATEDIFF(DAY, C.AdmissionDate, C.DischargeDate),
+ 
+        --    C.ClaimStatus,
+        --    1               --Single claim per record
+ 
+        --FROM EIPStaging.rstage.PatientClaims C
+ 
+        --INNER JOIN rcore.DimPatient DP
+        --    ON C.PatientID = DP.PatientID
+        --    AND DP.IsCurrent = 1
+ 
+        --INNER JOIN rcore.DimPolicy DPO
+        --    ON C.PolicyID = DPO.PolicyID
+        --    AND DPO.IsCurrent = 1
+ 
+        --INNER JOIN rcore.DimProvider DPR
+        --    ON C.ProviderID = DPR.ProviderID
+ 
+        --INNER JOIN EIPStaging.rstage.PatientMedicalIssue PMI
+        --    ON C.MedicalIssueID = PMI.MedicalIssueID
+ 
+        --INNER JOIN rcore.DimDiagnosis DD
+        --    ON PMI.DiagnosisCode = DD.DiagnosisCode
+ 
+        --WHERE NOT EXISTS
+        --(
+        --    SELECT 1
+        --    FROM rcore.FactClaim F
+        --    WHERE F.ClaimID = C.ClaimID
+        --);
+    ;WITH FactSource AS
+    (
         SELECT
-            C.ClaimID,
- 
-            DP.PatientKey,
-            DPO.PolicyKey,
-            DPR.ProviderKey,
-            DD.DiagnosisKey,
- 
-            CAST(FORMAT(C.ClaimDate,'yyyyMMdd') AS INT),
-            CAST(FORMAT(C.AdmissionDate,'yyyyMMdd') AS INT),
-            CAST(FORMAT(C.DischargeDate,'yyyyMMdd') AS INT),
- 
-            C.ClaimedAmount,
-            C.ApprovedAmount,
-            C.RejectedAmount,
-            C.OutOfPocketAmount,
- 
-            DATEDIFF(DAY, C.AdmissionDate, C.DischargeDate),
- 
-            C.ClaimStatus,
-            1               --Single claim per record
- 
-        FROM EIPStaging.rstage.PatientClaims C
- 
-        INNER JOIN rcore.DimPatient DP
-            ON C.PatientID = DP.PatientID
-            AND DP.IsCurrent = 1
- 
-        INNER JOIN rcore.DimPolicy DPO
-            ON C.PolicyID = DPO.PolicyID
-            AND DPO.IsCurrent = 1
- 
-        INNER JOIN rcore.DimProvider DPR
-            ON C.ProviderID = DPR.ProviderID
- 
-        INNER JOIN EIPStaging.rstage.PatientMedicalIssue PMI
-            ON C.MedicalIssueID = PMI.MedicalIssueID
- 
-        INNER JOIN rcore.DimDiagnosis DD
-            ON PMI.DiagnosisCode = DD.DiagnosisCode
- 
-        WHERE NOT EXISTS
-        (
-            SELECT 1
-            FROM rcore.FactClaim F
-            WHERE F.ClaimID = C.ClaimID
-        );
+            PC.ClaimID,
+            ISNULL(DP.PatientKey,-1)       AS PatientKey,
+            ISNULL(POL.PolicyKey,-1)       AS PolicyKey,
+            ISNULL(PR.ProviderKey,-1)      AS ProviderKey,
+            ISNULL(DD.DiagnosisKey,-1)     AS DiagnosisKey,
+            CD.DateKey                     AS ClaimDateKey,
+            AD.DateKey                     AS AdmissionDateKey,
+            DDT.DateKey                    AS DischargeDateKey,
+            PC.ClaimedAmount,
+            PC.ApprovedAmount,
+            PC.RejectedAmount,
+            PC.OutOfPocketAmount,
+            DATEDIFF
+            (
+                DAY,
+                PC.AdmissionDate,
+                PC.DischargeDate
+            ) AS LengthOfStay,
+            PC.ClaimStatus
+        FROM EIPStaging.rstage.PatientClaims PC
+            LEFT JOIN rCore.DimPatient DP
+                ON  PC.PatientID = DP.PatientID
+                AND DP.IsCurrent = 1
+            LEFT JOIN rCore.DimPolicy POL
+                ON  PC.PolicyID = POL.PolicyID
+                AND POL.IsCurrent = 1
+            LEFT JOIN rCore.DimProvider PR
+                ON PC.ProviderID = PR.ProviderID
+                AND PR.IsCurrent = 1
+            LEFT JOIN EIPStaging.rstage.PatientMedicalIssue PMI
+                ON PC.MedicalIssueID = PMI.MedicalIssueID
+            LEFT JOIN rCore.DimDiagnosis DD
+                ON PMI.DiagnosisCode = DD.DiagnosisCode
+            INNER JOIN rCore.DimDate CD
+                ON CD.FullDate = PC.ClaimDate
+            INNER JOIN rCore.DimDate AD
+                ON AD.FullDate = PC.AdmissionDate
+            INNER JOIN rCore.DimDate DDT
+                ON DDT.FullDate = PC.DischargeDate
+            WHERE CAST(PC.ClaimDate AS DATE) > CAST(GETDATE()-(365*3) AS DATE)
+    )
+
+    /* =========================================================
+       MERGE FACT CLAIM
+       ========================================================= */
+    MERGE rCore.FactClaim AS TARGET
+    USING FactSource AS SOURCE
+    ON TARGET.ClaimID = SOURCE.ClaimID
+
+    /* =========================================================
+       UPDATE EXISTING CLAIMS
+       ========================================================= */
+    WHEN MATCHED
+    AND
+    (
+           ISNULL(TARGET.PatientKey,-1)
+    <> ISNULL(SOURCE.PatientKey,-1)
+        OR ISNULL(TARGET.PolicyKey,-1)
+    <> ISNULL(SOURCE.PolicyKey,-1)
+        OR ISNULL(TARGET.ProviderKey,-1)
+    <> ISNULL(SOURCE.ProviderKey,-1)
+        OR ISNULL(TARGET.DiagnosisKey,-1)
+    <> ISNULL(SOURCE.DiagnosisKey,-1)
+        OR ISNULL(TARGET.ClaimDateKey,-1)
+    <> ISNULL(SOURCE.ClaimDateKey,-1)
+        OR ISNULL(TARGET.AdmissionDateKey,-1)
+    <> ISNULL(SOURCE.AdmissionDateKey,-1)
+        OR ISNULL(TARGET.DischargeDateKey,-1)
+    <> ISNULL(SOURCE.DischargeDateKey,-1)
+        OR ISNULL(TARGET.ClaimedAmount,0)
+    <> ISNULL(SOURCE.ClaimedAmount,0)
+        OR ISNULL(TARGET.ApprovedAmount,0)
+    <> ISNULL(SOURCE.ApprovedAmount,0)
+        OR ISNULL(TARGET.RejectedAmount,0)
+    <> ISNULL(SOURCE.RejectedAmount,0)
+        OR ISNULL(TARGET.OutOfPocketAmount,0)
+    <> ISNULL(SOURCE.OutOfPocketAmount,0)
+        OR ISNULL(TARGET.LengthOfStay,0)
+    <> ISNULL(SOURCE.LengthOfStay,0)
+        OR ISNULL(TARGET.ClaimStatus,'')
+    <> ISNULL(SOURCE.ClaimStatus,'')
+    )
+    THEN
+    UPDATE SET
+        TARGET.PatientKey        = SOURCE.PatientKey,
+        TARGET.PolicyKey         = SOURCE.PolicyKey,
+        TARGET.ProviderKey       = SOURCE.ProviderKey,
+        TARGET.DiagnosisKey      = SOURCE.DiagnosisKey,
+        TARGET.ClaimDateKey      = SOURCE.ClaimDateKey,
+        TARGET.AdmissionDateKey  = SOURCE.AdmissionDateKey,
+        TARGET.DischargeDateKey  = SOURCE.DischargeDateKey,
+        TARGET.ClaimedAmount     = SOURCE.ClaimedAmount,
+        TARGET.ApprovedAmount    = SOURCE.ApprovedAmount,
+        TARGET.RejectedAmount    = SOURCE.RejectedAmount,
+        TARGET.OutOfPocketAmount = SOURCE.OutOfPocketAmount,
+        TARGET.LengthOfStay      = SOURCE.LengthOfStay,
+        TARGET.ClaimStatus       = SOURCE.ClaimStatus,
+        TARGET.ModifiedDate      = GETDATE()--,
+        --TARGET.BatchID           = @BatchID
+
+    /* =========================================================
+       INSERT NEW CLAIMS
+       ========================================================= */
+    WHEN NOT MATCHED BY TARGET
+    THEN
+    INSERT
+    (
+        ClaimID,
+        PatientKey,
+        PolicyKey,
+        ProviderKey,
+        DiagnosisKey,
+        ClaimDateKey,
+        AdmissionDateKey,
+        DischargeDateKey,
+        ClaimedAmount,
+        ApprovedAmount,
+        RejectedAmount,
+        OutOfPocketAmount,
+        LengthOfStay,
+        ClaimStatus,
+        ClaimCount,
+        CreatedDate--,
+       -- BatchID
+    )
+    VALUES
+    (
+        SOURCE.ClaimID,
+        SOURCE.PatientKey,
+        SOURCE.PolicyKey,
+        SOURCE.ProviderKey,
+        SOURCE.DiagnosisKey,
+        SOURCE.ClaimDateKey,
+        SOURCE.AdmissionDateKey,
+        SOURCE.DischargeDateKey,
+        SOURCE.ClaimedAmount,
+        SOURCE.ApprovedAmount,
+        SOURCE.RejectedAmount,
+        SOURCE.OutOfPocketAmount,
+        SOURCE.LengthOfStay,
+        SOURCE.ClaimStatus,
+        1,
+        GETDATE()--,
+        --@BatchID
+    );
+
     COMMIT TRAN
 END TRY
 BEGIN CATCH
@@ -739,3 +890,5 @@ IF @@TranCount <> 0
 	THROW;
 END CATCH
 END;
+
+GO

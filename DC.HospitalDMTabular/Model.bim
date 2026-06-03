@@ -281,7 +281,7 @@
         "measures": [
           {
             "name": "Total Claims",
-            "expression": "count(Claims[ClaimID(FactClaim)])"
+            "expression": "[Policy Utilization %]"
           },
           {
             "name": "Total Claimed Amount",
